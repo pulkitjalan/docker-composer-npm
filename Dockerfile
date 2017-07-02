@@ -38,6 +38,7 @@ RUN apt-get install -y \
     php$PHPVERSION-curl \
     php$PHPVERSION-common \
     php$PHPVERSION-json \
+    php$PHPVERSION-mbstring \
     php$PHPVERSION-xml
 
 # Install Composer
