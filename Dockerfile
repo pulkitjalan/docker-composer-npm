@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh \
@@ -32,7 +32,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
     && apt-get update
 
 # Install PHP
-ARG PHPVERSION=7.0
+ARG PHPVERSION=7.2
 RUN apt-get install -y \
     php$PHPVERSION \
     php$PHPVERSION-curl \
@@ -53,8 +53,8 @@ ENV PATH="${COMPOSER_HOME}/vendor/bin:${PATH}"
 
 # Install Node and NPM
 ARG NVM_DIR=/usr/local/nvm
-ARG NVM_VERSION=0.33.11
-ARG NODE_VERSION=10.14.1
+ARG NVM_VERSION=0.34.0
+ARG NODE_VERSION=10.16.0
 RUN mkdir -p $NVM_DIR \
     && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
