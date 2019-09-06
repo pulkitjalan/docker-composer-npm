@@ -54,7 +54,7 @@ ENV PATH="${COMPOSER_HOME}/vendor/bin:${PATH}"
 # Install Node and NPM
 ARG NVM_DIR=/usr/local/nvm
 ARG NVM_VERSION=0.34.0
-ARG NODE_VERSION=10.16.0
+ARG NODE_VERSION=10.16.3
 RUN mkdir -p $NVM_DIR \
     && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
