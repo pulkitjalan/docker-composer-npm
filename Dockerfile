@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh \
@@ -14,32 +14,25 @@ RUN apt-get update \
     curl \
     zip \
     unzip \
-    libssl-dev \
-    libfontconfig \
-    build-essential \
     wget \
     git-core \
     python-pip \
-    jq \
-    software-properties-common \
-    python-software-properties
+    jq
 
 # Install aws cli
 RUN pip install awscli
 
-# Add repositories
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
-    && apt-get update
-
 # Install PHP
-ARG PHPVERSION=7.2
-RUN apt-get install -y \
-    php$PHPVERSION \
-    php$PHPVERSION-curl \
-    php$PHPVERSION-common \
-    php$PHPVERSION-json \
-    php$PHPVERSION-mbstring \
-    php$PHPVERSION-xml
+RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
+    && apt-get update \
+    && apt-get install -y \
+        php7.3 \
+        php7.3-curl \
+        php7.3-common \
+        php7.3-json \
+        php7.3-mbstring \
+        php7.3-xml
 
 # Install Composer
 ENV COMPOSER_HOME /usr/local/bin/.composer
@@ -67,6 +60,7 @@ RUN mkdir -p $NVM_DIR \
     && rm -rf $NVM_DIR
 
 # Cleanup
-RUN apt-get clean \
+RUN apt-get -y autoremove \
+    && apt-get clean \
     && rm -rf ~/* /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && history -c
