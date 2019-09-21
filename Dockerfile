@@ -14,15 +14,10 @@ RUN apt-get update \
     curl \
     zip \
     unzip \
-    libssl-dev \
-    libfontconfig \
-    build-essential \
     wget \
     git-core \
     python-pip \
-    jq \
-    software-properties-common \
-    python-software-properties
+    jq
 
 # Install aws cli
 RUN pip install awscli
