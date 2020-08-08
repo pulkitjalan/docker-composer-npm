@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh \
@@ -16,23 +16,21 @@ RUN apt-get update \
     unzip \
     wget \
     git-core \
-    python-pip \
+    python3-pip \
     jq
 
-# Install aws cli
-RUN pip install awscli
+# Install awscli
+RUN pip3 install awscli
 
 # Install PHP
-RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C \
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y \
-        php7.3 \
-        php7.3-curl \
-        php7.3-common \
-        php7.3-json \
-        php7.3-mbstring \
-        php7.3-xml
+        php7.4 \
+        php7.4-curl \
+        php7.4-common \
+        php7.4-json \
+        php7.4-mbstring \
+        php7.4-xml
 
 # Install Composer
 ENV COMPOSER_HOME /usr/local/bin/.composer
@@ -46,9 +44,9 @@ ENV PATH="${COMPOSER_HOME}/vendor/bin:${PATH}"
 
 # Install Node and NPM
 ARG NVM_DIR=/usr/local/nvm
-ARG NVM_VERSION=0.34.0
 RUN mkdir -p $NVM_DIR \
-    && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash \
+    && NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | jq -r .tag_name) \
+    && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
     && nvm install --lts \
     && nvm use --lts \
