@@ -11,13 +11,13 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \
-    curl \
-    zip \
-    unzip \
-    wget \
-    git-core \
-    python3-pip \
-    jq
+        curl \
+        zip \
+        unzip \
+        wget \
+        git-core \
+        python3-pip \
+        jq
 
 # Install awscli
 RUN pip3 install awscli
