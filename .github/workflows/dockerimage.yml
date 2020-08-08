@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - 'master'
+  schedule:
+    - cron:  '0 3 * * 0'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Docker login to dockerhub
+      run: echo ${{ secrets.DOCKER_PASS }} | docker login --username ${{ secrets.DOCKER_USER }} --password-stdin
+
+    - name: Build the Docker image
+      run: docker build --file Dockerfile --tag pulkitjalan/composer-npm:latest .
+
+    - name: Push the Docker image
+      run: docker push pulkitjalan/composer-npm:latest
